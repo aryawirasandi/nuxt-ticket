@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export const state = () => ({
-    list: [],
+    lists: [],
     progress : false,
 })
 
@@ -14,20 +14,26 @@ export const mutations = {
             ...payload,
             status : false,
         }
-        state.list = [...state.list, data]
+        state.lists = [...state.lists, data]
         state.progress = false;
     },
+    DELETE_TICKET(state, id){
+        state.lists = state.lists.filter(list => list.id !== id );
+    }
 }
 
 export const actions = {
     SUBMIT_TICKET({commit}, payload){
         commit("SUBMIT_TICKET", payload);
+    }, 
+    DELETE_TICKET({commit}, id){
+        commit("DELETE_TICKET", id);
     }
 }
 
 export const getters = {
     GET_ALL_TICKETS(state){
-        return state.list
+        return state.lists
     },
     GET_PROGRESS(state){
         return state.progress;

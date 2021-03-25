@@ -38,7 +38,7 @@
             <h2 class="text-center my-3">List of tickets</h2> <br/>
             <v-row>
                  <v-col v-for="(ticket, index) in tickets" :key="index" cols="12" md="4">
-                <Card :ticket="ticket"/>
+                <Ticket :ticket="ticket" @delete="delete_ticket" @update="update_ticket"/>
             </v-col>
             </v-row>
         </div>
@@ -51,11 +51,11 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
-import Card from "@/components/Ticket";
+import Ticket from "@/components/Ticket";
 export default {
     name : "Homepage",
     components : {
-      Card
+      Ticket
     },
     computed : {
         ...mapGetters([
@@ -68,12 +68,18 @@ export default {
     },
     methods : {
         ...mapActions([
-            "CHANGE_INPUT",
+            "CHANGE_INPUT"
         ]),
         submit_ticket(e){
             e.preventDefault();
             this.$store.dispatch("tickets/SUBMIT_TICKET", this.forms);
             this.$store.dispatch("CLEAR_FORM");
+        },
+        delete_ticket(id){
+           this.$store.dispatch("tickets/DELETE_TICKET", id)
+        },
+        update_ticket(value){
+            console.log(value);
         }
     },
 }
